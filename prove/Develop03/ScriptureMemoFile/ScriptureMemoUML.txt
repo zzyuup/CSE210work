@@ -1,0 +1,104 @@
+Class: Program
+Attributes:
+  None
+Behaviors:
+  + Main(args : string[]) : void
+Main:
+  - Create a GetScriptures object
+  - Use GetRandomScripture() to get one scripture
+  - Create a Hidden object using that scripture
+  - Start a loop
+  - Clear the console
+  - Display the scripture first
+  - Ask the user to press Enter or type quit
+  - If the user presses Enter, run Hidden.Hide()
+  - If the user types quit, stop the program
+  - If all words are hidden, stop the program
+
+
+Class: GetScriptures
+Attributes:
+  - _scriptures : List<Scripture>
+  - _random : Random
+Behaviors:
+  + GetScriptures()
+  + GetRandomScripture() : Scripture
+  - ParseCsvLine(line : string) : List<string>
+Responsibilities:
+  - Read scripture data from ScripturesLib.txt
+  - Create Reference and Scripture objects from the file
+  - Store the scriptures in a list
+  - Return one random scripture
+
+
+Class: Scripture
+Attributes:
+  - _reference : Reference
+  - _text : string
+Behaviors:
+  + Scripture(reference : Reference, text : string)
+  + GetText() : string
+  + GetReferenceText() : string
+  + GetDisplayText() : string
+Responsibilities:
+  - Store the scripture reference
+  - Store the scripture text
+  - Return the scripture reference and text
+
+
+Class: Reference
+Attributes:
+  - _book : string
+  - _chapter : int
+  - _startVerse : int
+  - _endVerse : int
+Behaviors:
+  + Reference(book : string, chapter : int, verse : int)
+  + Reference(book : string, chapter : int, startVerse : int, endVerse : int)
+  + GetDisplayText() : string
+Responsibilities:
+  - Store the scripture reference
+  - Handle both single verses and verse ranges
+  - Return reference text like 1 Nephi 3:7 or Moroni 10:4-5
+
+
+Class: Hidden
+Attributes:
+  - _hiddenWords : List<string>
+  - _randomWords : List<string>
+  - _randomWordsAddress : List<int>
+  - _verse : List<Word>
+  - _scripture : Scripture
+  - _random : Random
+Behaviors:
+  + Hidden(scripture : Scripture)
+  + Hide() : void
+  + GetVerse() : string
+  + IsCompletelyHidden() : bool
+  - VerseList(scriptureText : string) : void
+  - PickRandomWords() : void
+  - HideWords() : void
+  - ReplaceWords() : void
+Responsibilities:
+  - Turn the scripture text into a list of words
+  - Pick 3 random visible words
+  - Store the selected words and their locations
+  - Replace selected words with underscores
+  - Return the updated verse back to Main
+
+
+Class: Word
+Attributes:
+  - _text : string
+  - _displayText : string
+  - _isHidden : bool
+Behaviors:
+  + Word(text : string)
+  + GetText() : string
+  + Hide(hiddenText : string) : void
+  + IsHidden() : bool
+  + GetDisplayText() : string
+Responsibilities:
+  - Store one word from the scripture
+  - Know whether the word is hidden or visible
+  - Return either the original word or underscores

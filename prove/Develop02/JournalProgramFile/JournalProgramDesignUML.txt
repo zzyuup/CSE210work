@@ -1,0 +1,32 @@
+// Yester Zheng, UML Design for JournalProgram.cs
+
+// Interaction:
+//   Program controls the menu.
+//   Journal stores each journal entry as one string in this format: 
+//   date|prompt|response
+
+// Public Class: Program
+// Attributes:
+//   none
+// Behaviors:
+//   + Main(args : string[]) : void
+//   + DisplayMenu() : void
+//   + Quit() : void
+
+// Public Class: Journal 
+// Attributes:
+//   - _entries : List<string>
+//   - _prompts : List<string>
+// Behaviors:
+//   + Prompt() : void
+//          reads the prompt from a file
+//   + WriteEntry() : void
+//          creates the entry
+//   + Display() : void
+//          show all saved entries
+//   + Save() : void
+//          writes the list to a file
+//   + Load() : void
+//          reads the list back from a file
+
+
