@@ -1,4 +1,3 @@
-// Name,chapter,verse,scripture
 "1 Nephi",3,7,"I will go and do the things which the Lord hath commanded"
 "2 Nephi",2,25,"Adam fell that men might be and men are that they might have joy"
 "2 Nephi",31,20,"Wherefore ye must press forward with a steadfastness in Christ having a perfect brightness of hope"
