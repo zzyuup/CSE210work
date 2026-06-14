@@ -1,0 +1,260 @@
+INHERITANCE
+
+Activity
+  ↑
+  ├── BreathingActivity
+  ├── ReflectionActivity
+  └── ListingActivity
+
+
+CLASS: Program
+Attributes:
+- _running : bool
+- _choice : string
+- _breathing : BreathingActivity
+- _reflection : ReflectionActivity
+- _listing : ListingActivity
+Behaviors:
++ Main(args : string[]) : void
+- DisplayMenu() : void
+- HandleChoice(choice : string) : void
+- Quit() : void
+Responsibilities:
+- Show the main menu
+- Let the user choose an activity
+- Run a loop until the user chooses quit
+- Call the selected activity
+- Restart the menu after each activity ends
+
+
+CLASS: Activity
+Attributes:
+- _name : string
+- _description : string
+- _duration : int
+Behaviors:
++ Activity(name : string, description : string)
++ Run() : void
++ DisplayStartingMessage() : void
++ DisplayEndingMessage() : void
++ SetDuration(seconds : int) : void
+# PerformActivity() : void
+# ShowSpinner(seconds : int) : void
+# ShowCountdown(seconds : int) : void
+# Pause(seconds : int) : void
+Responsibilities:
+- Store the common activity name, description, and duration
+- Show the common starting message
+- Show the common ending message
+- Provide shared animation and delay behavior
+- Let each derived class do its own activity logic
+
+
+CLASS: BreathingActivity : Activity
+Attributes:
+- _breathingPrompts : List<string>
+- _randomizer : BreathingPromptRandomizer
+- _tracker : BreathingPromptTracker
+Behaviors:
++ BreathingActivity()
++ Run() : void
+# PerformActivity() : void
+- DisplayBreathingPrompt() : void
+- ResetPromptRound() : void
+Responsibilities:
+- Run the breathing activity
+- Alternate through breathing prompts for the chosen duration
+- Use a randomized display order for the prompt cycle
+- Prevent duplicates in one round
+- When all prompts have been shown, reshuffle and start a new round
+- Return to the menu when finished
+
+PRIVATE CLASS: BreathingPromptRandomizer
+Attributes:
+- _promptIndexes : List<int>
+- _random : Random
+- _currentIndex : int
+Behaviors:
++ BreathingPromptRandomizer(promptCount : int)
++ ShuffleOrder() : void
++ GetNextIndex() : int
++ IsRoundFinished() : bool
+Responsibilities:
+- Randomize the display order of breathing prompts
+- Return the next prompt index
+- Know when all prompts in this round have been used
+
+PRIVATE CLASS: BreathingPromptTracker
+Attributes:
+- _usedIndexes : HashSet<int>
+Behaviors:
++ MarkUsed(index : int) : void
++ IsUsed(index : int) : bool
++ AllUsed(total : int) : bool
++ Reset() : void
+Responsibilities:
+- Keep track of prompts already shown
+- Prevent duplicate prompts in the same round
+- Reset after all prompts have been displayed once
+
+
+CLASS: ReflectionActivity : Activity
+Attributes:
+- _prompts : List<string>
+- _questions : List<string>
+- _promptRandomizer : ReflectionPromptRandomizer
+- _questionRandomizer : ReflectionQuestionRandomizer
+- _promptTracker : ReflectionPromptTracker
+- _questionTracker : ReflectionQuestionTracker
+- _spinner : SpinnerAnimation
+Behaviors:
++ ReflectionActivity()
++ Run() : void
+# PerformActivity() : void
+- DisplayRandomPrompt() : void
+- DisplayRandomQuestion() : void
+- ResetPromptRound() : void
+- ResetQuestionRound() : void
+Responsibilities:
+- Show one random reflection prompt
+- Show reflection questions for the selected duration
+- Display spinner animation while pausing
+- Prevent duplicate prompts in the same round
+- Prevent duplicate questions in the same round
+- When all prompts or questions are used, reshuffle and start a new round
+
+PRIVATE CLASS: SpinnerAnimation
+Attributes:
+- _frames : List<string>
+Behaviors:
++ SpinnerAnimation()
++ Animate(seconds : int) : void
+Responsibilities:
+- Show the spinner animation
+- Use the frame order: "/", "|", "\", "-"
+
+PRIVATE CLASS: ReflectionPromptRandomizer
+Attributes:
+- _promptIndexes : List<int>
+- _random : Random
+- _currentIndex : int
+Behaviors:
++ ReflectionPromptRandomizer(promptCount : int)
++ ShuffleOrder() : void
++ GetNextIndex() : int
++ IsRoundFinished() : bool
+Responsibilities:
+- Randomize the order of reflection prompts
+- Return the next prompt index
+- Know when the current prompt round is complete
+
+PRIVATE CLASS: ReflectionQuestionRandomizer
+Attributes:
+- _questionIndexes : List<int>
+- _random : Random
+- _currentIndex : int
+Behaviors:
++ ReflectionQuestionRandomizer(questionCount : int)
++ ShuffleOrder() : void
++ GetNextIndex() : int
++ IsRoundFinished() : bool
+Responsibilities:
+- Randomize the order of reflection questions
+- Return the next question index
+- Know when the current question round is complete
+
+PRIVATE CLASS: ReflectionPromptTracker
+Attributes:
+- _usedIndexes : HashSet<int>
+Behaviors:
++ MarkUsed(index : int) : void
++ IsUsed(index : int) : bool
++ AllUsed(total : int) : bool
++ Reset() : void
+Responsibilities:
+- Track which prompts have already been shown
+- Prevent duplicates in the same round
+
+PRIVATE CLASS: ReflectionQuestionTracker
+Attributes:
+- _usedIndexes : HashSet<int>
+Behaviors:
++ MarkUsed(index : int) : void
++ IsUsed(index : int) : bool
++ AllUsed(total : int) : bool
++ Reset() : void
+Responsibilities:
+- Track which questions have already been shown
+- Prevent duplicates in the same round
+
+
+CLASS: ListingActivity : Activity
+Attributes:
+- _prompts : List<string>
+- _items : List<string>
+- _promptRandomizer : ListingPromptRandomizer
+- _promptTracker : ListingPromptTracker
+Behaviors:
++ ListingActivity()
++ Run() : void
+# PerformActivity() : void
+- DisplayRandomPrompt() : void
+- CollectItems() : void
+- DisplayItemCount() : void
+- ResetPromptRound() : void
+Responsibilities:
+- Show one listing prompt
+- Let the user list items until time runs out
+- Count how many items were entered
+- Prevent duplicate prompts in the same round
+- When all prompts have been used once, reshuffle and start a new round
+
+PRIVATE CLASS: ListingPromptRandomizer
+Attributes:
+- _promptIndexes : List<int>
+- _random : Random
+- _currentIndex : int
+Behaviors:
++ ListingPromptRandomizer(promptCount : int)
++ ShuffleOrder() : void
++ GetNextIndex() : int
++ IsRoundFinished() : bool
+Responsibilities:
+- Randomize the order of listing prompts
+- Return the next prompt index
+- Know when the round has used all prompts
+
+PRIVATE CLASS: ListingPromptTracker
+Attributes:
+- _usedIndexes : HashSet<int>
+Behaviors:
++ MarkUsed(index : int) : void
++ IsUsed(index : int) : bool
++ AllUsed(total : int) : bool
++ Reset() : void
+Responsibilities:
+- Track which prompts have already been shown
+- Prevent duplicates in the same round
+
+
+PROGRAM FLOW:
+1. Program starts.
+2. Program creates one BreathingActivity, one ReflectionActivity, and one ListingActivity.
+3. Program enters the main menu loop.
+4. User chooses an option.
+5. If the user chooses Breathing, Program calls BreathingActivity.Run().
+6. If the user chooses Reflection, Program calls ReflectionActivity.Run().
+7. If the user chooses Listing, Program calls ListingActivity.Run().
+8. Each activity:
+   - shows the starting message,
+   - gets the duration,
+   - runs its own activity loop,
+   - uses its private randomizer and tracker classes,
+   - avoids duplicates in the same round,
+   - reshuffles when all prompts have been used,
+   - shows the ending message.
+9. Control returns to Program.
+10. Program shows the menu again.
+11. The loop stops only when the user chooses Quit.
+
+
