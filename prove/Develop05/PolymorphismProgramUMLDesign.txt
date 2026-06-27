@@ -1,0 +1,117 @@
+Class: Main
+Attributes:
+- none
+
+Methods:
++ Main() : void
+
+Responsibilities:
+- Start the program
+- Call the menu
+- Run the main loop
+
+
+Class: Menu
+Attributes:
+- _choice : string
+
+Methods:
++ DisplayMenu() : void
++ GetChoice() : string
+
+Responsibilities:
+- Show menu options
+- Let the user choose what to do
+
+
+Class: Goals
+Attributes:
+- _goals : List<BaseGoal>
+
+Methods:
++ AddGoal(goal : BaseGoal) : void
++ DisplayGoals() : void
++ SaveGoals() : void
++ LoadGoals() : void
++ RecordEvent() : void
++ GetTotalScore() : int
+
+Responsibilities:
+- Store all goals
+- Manage goal list
+- Handle saving and loading
+- Track total score
+
+
+Class: BaseGoal
+Attributes:
+- _name : string
+- _description : string
+- _points : int
+- _isComplete : bool
+
+Methods:
++ BaseGoal(name : string, description : string, points : int)
++ RecordEvent() : int
++ IsComplete() : bool
++ GetDetailsString() : string
++ GetStringRepresentation() : string
+
+Responsibilities:
+- Store common goal data
+- Act as parent class
+- Provide shared behavior
+
+
+Class: SimpleGoal
+Attributes:
+- inherited from BaseGoal
+
+Methods:
++ SimpleGoal(name : string, description : string, points : int)
++ RecordEvent() : int
++ GetDetailsString() : string
++ GetStringRepresentation() : string
+
+Responsibilities:
+- One-time goal
+- Mark complete after recording once
+
+
+Class: EternalGoal
+Attributes:
+- inherited from BaseGoal
+
+Methods:
++ EternalGoal(name : string, description : string, points : int)
++ RecordEvent() : int
++ GetDetailsString() : string
++ GetStringRepresentation() : string
+
+Responsibilities:
+- Goal never fully completes
+- Gives points every time it is recorded
+
+
+Class: CheckListGoal
+Attributes:
+- _amountCompleted : int
+- _target : int
+- _bonus : int
+
+Methods:
++ CheckListGoal(name : string, description : string, points : int, target : int, bonus : int)
++ RecordEvent() : int
++ IsComplete() : bool
++ GetDetailsString() : string
++ GetStringRepresentation() : string
+
+Responsibilities:
+- Track repeated progress
+- Give bonus when target is reached
+- Mark complete when finished
+
+
+
+
+
