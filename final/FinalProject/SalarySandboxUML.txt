@@ -1,0 +1,182 @@
+Class: Main
+Attributes:
+- none
+
+Methods:
++ Main() : void
+
+Responsibilities:
+- Start the program
+- Run the main menu loop
+- Do not use Console.Clear()
+
+
+
+Class: Menu
+Attributes:
+- _choice : string
+
+Methods:
++ DisplayMenu() : void
++ GetChoice() : string
+
+Responsibilities:
+- Show menu options
+- Let user choose what to do
+
+
+
+Class: Salary
+Attributes:
+- _amount : double
+- _timePeriod : string
+
+Methods:
++ Salary(amount : double, timePeriod : string)
++ GetAmount() : double
++ GetTimePeriod() : string
++ SetSalary(amount : double) : void
+
+Responsibilities:
+- Store user salary
+- Store paycheck week, month, or year
+
+
+
+Class: Checklist
+Attributes:
+- _requiredExpenses : List<RequiredExpense>
+
+Methods:
++ AddRequiredExpense(expense : RequiredExpense) : void
++ DisplayChecklist() : void
++ GetTotalRequiredCost() : double
++ ImportChecklist(filename : string) : void
++ SaveChecklist(filename : string) : void
+
+Responsibilities:
+- Store important required expenses
+- Let user save checklist for future use
+- Let user import an existing checklist
+- Save and load checklist using format: name,cost
+
+
+
+Class: Sandbox
+Attributes:
+- _expenses : List<BaseExpense>
+- _salesTaxPercent : double
+
+Methods:
++ AddExpense(expense : BaseExpense) : void
++ DisplaySandboxItems() : void
++ GetSubtotal() : double
++ GetTaxAmount() : double
++ GetTotalWithTax() : double
++ SetSalesTax(percent : double) : void
++ ClearSandbox() : void
+
+Responsibilities:
+- Store virtual purchases in a list
+- Display sandbox items later when user asks
+- Show item prices, subtotal, tax, and total
+- Let user restart sandbox when needed
+
+
+
+Class: BudgetPlan
+Attributes:
+- _salary : Salary
+- _checklist : Checklist
+- _sandbox : Sandbox
+
+Methods:
++ ShowPlanSummary() : void
++ GetMoneyLeft() : double
++ CanAffordPurchase() : bool
++ GetResult() : string
++ RestartPlan() : void
+
+Responsibilities:
+- Compare salary with required expenses and sandbox purchases
+- Show whether user can afford the plan
+- Keep everything within the selected time period
+
+
+
+Class: FileManager
+Attributes:
+- none
+
+Methods:
++ SavePlan(filename : string, plan : BudgetPlan) : void
++ SaveChecklist(filename : string, checklist : Checklist) : void
++ LoadChecklist(filename : string) : Checklist
+
+Responsibilities:
+- Save full plan to a text file
+- Save checklist to a text file
+- Import checklist from a text file
+
+
+
+Class: BaseExpense
+Attributes:
+- _name : string
+- _cost : double
+
+Methods:
++ BaseExpense(name : string, cost : double)
++ GetName() : string
++ GetCost() : double
++ GetDisplayText() : string
++ CalculateCost() : double
+
+Responsibilities:
+- Parent class for all expense types
+- Store common name and cost
+
+
+
+Class: RequiredExpense : BaseExpense
+Attributes:
+- _category : string
+
+Methods:
++ RequiredExpense(name : string, cost : double, category : string)
++ GetDisplayText() : string
++ CalculateCost() : double
+
+Responsibilities:
+- Store required checklist expenses
+- Examples: rent, food, utilities
+
+
+
+Class: OptionalPurchase : BaseExpense
+Attributes:
+- _priority : string
+
+Methods:
++ OptionalPurchase(name : string, cost : double, priority : string)
++ GetDisplayText() : string
++ CalculateCost() : double
+
+Responsibilities:
+- Store sandbox purchases
+- Examples: graphics card, trip, game, car part
+
+
+
+Class: EventExpense : BaseExpense
+Attributes:
+- _eventDate : string
+
+Methods:
++ EventExpense(name : string, cost : double, eventDate : string)
++ GetDisplayText() : string
++ CalculateCost() : double
+
+Responsibilities:
+- Store planned event purchases
+- Examples: tournament, concert, travel, birthday
